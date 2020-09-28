@@ -24,6 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   curved_navigation_bar: ^0.3.4
+  provider: ^4.3.2+2
+  url_launcher: ^5.7.2
+  get_it: ^5.0.1
+  rounded_flutter_datetime_picker: ^1.3.11
   
 
 

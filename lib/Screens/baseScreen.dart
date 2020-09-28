@@ -1,9 +1,10 @@
-import 'package:FinalProject/Screens/appDrawer.dart';
-import 'package:FinalProject/Widgets/modalBottomSheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../Screens/appDrawer.dart';
+import '../Widgets/modalBottomSheet.dart';
 import './doctorScreen.dart';
 import './filesScreen.dart';
 import './homeScreen.dart';
@@ -59,15 +60,18 @@ class _HomePageState extends State<BasePage> {
                     ),
                     context: context,
                     builder: (BuildContext context) {
-                      
                       return ModalBottomSheetWidget();
                     });
-              })
+              }),
+          IconButton(
+            icon: Icon(FontAwesomeIcons.qrcode),
+            onPressed: () {},
+          )
         ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
-        color: Colors.black,
+        color: Colors.black54,
         backgroundColor: Colors.white,
         buttonBackgroundColor: Colors.black,
         animationDuration: Duration(milliseconds: 200),
