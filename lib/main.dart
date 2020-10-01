@@ -1,11 +1,13 @@
-import './Providers/doctorProvider.dart';
-import './Providers/appointmentProvider.dart';
-import './Providers/medicineProvider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'Screens/loginPage.dart';
-import 'Screens/baseScreen.dart';
+
+import './Providers/doctorProvider.dart';
+import './Providers/appointmentProvider.dart';
+import './Providers/medicineProvider.dart';
+import './Screens/loginPage.dart';
+import './Screens/baseScreen.dart';
 
 void main() => runApp(new MyApp());
 
@@ -29,9 +31,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => DoctorProvider()),
         ChangeNotifierProvider(create: (_) => MedicineReminderProvider()),
-        ChangeNotifierProvider(create: (_) => AppointmentProvider())
+        ChangeNotifierProvider(create: (_) => AppointmentProvider()),
       ],
-          child: new MaterialApp(
+      child: new MaterialApp(
         title: 'App Name Here',
         theme: new ThemeData(
             primarySwatch: MaterialColor(0xFFfbab66, color),

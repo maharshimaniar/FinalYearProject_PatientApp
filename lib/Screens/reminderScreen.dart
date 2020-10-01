@@ -34,12 +34,14 @@ class _HomePageState extends State<ReminderScreen>
         Provider.of<MedicineReminderProvider>(context).medicineReminderList;
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: SafeArea(bottom: true,
+        flexibleSpace: SafeArea(
+          bottom: true,
           child: TabBar(
-            
-            labelStyle: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
+            labelStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             dragStartBehavior: DragStartBehavior.start,
-            unselectedLabelStyle: TextStyle(fontSize: 15, ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 15,
+            ),
             controller: _tabController,
             indicator: PointTabIndicator(
               position: PointTabIndicatorPosition.bottom,
@@ -95,9 +97,12 @@ class _HomePageState extends State<ReminderScreen>
                   itemCount: _appointmentList.length,
                   itemBuilder: (context, index) {
                     return AppointmentListTile(
-                        dateTime: _appointmentList[index].dateTime,
-                        doctorName: _appointmentList[index].doctorName,
-                        appointmentId: _appointmentList[index].appointmentId);
+                      appointmentDateTime:
+                          _appointmentList[index].appointmentDateTime,
+                      doctor: _appointmentList[index].doctor,
+                      appointmentId: _appointmentList[index].appointmentId,
+                      accessTime: _appointmentList[index].accessDateTime,
+                    );
                   }),
             ),
           ),

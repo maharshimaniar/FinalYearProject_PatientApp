@@ -1,15 +1,16 @@
 import 'package:flutter/foundation.dart';
 
+import '../Classes/doctor.dart';
+
 class Appointment {
   final String appointmentId;
-  final String doctorName;
-  final DateTime dateTime;
-  final String doctorId;
+  final Doctor doctor;
+  final DateTime appointmentDateTime;
+  final DateTime accessDateTime;
 
   Appointment(
       {@required this.appointmentId,
-      @required this.dateTime,
-      @required this.doctorId,
-      @required this.doctorName});
-
+      @required this.appointmentDateTime,
+      @required this.doctor,
+      @required this.accessDateTime});
 }
