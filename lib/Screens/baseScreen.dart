@@ -51,8 +51,8 @@ class _HomePageState extends State<BasePage> {
         actions: [
           IconButton(
               icon: Icon(Icons.add),
-              onPressed: () {
-                showModalBottomSheet(
+              onPressed: () async {
+                await showModalBottomSheet(
                     isScrollControlled: true,
                     shape: RoundedRectangleBorder(
                       borderRadius:

@@ -38,6 +38,7 @@ class DoctorListTile extends StatelessWidget {
         Scaffold.of(context).hideCurrentSnackBar();
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text("$name pressed."),
+          duration: Duration(seconds: 2),
         ));
       },
       trailing: IconButton(

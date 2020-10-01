@@ -39,4 +39,6 @@ class DoctorProvider with ChangeNotifier {
   List<Doctor> get doctorList {
     return [..._doctorList];
   }
+
+  
 }

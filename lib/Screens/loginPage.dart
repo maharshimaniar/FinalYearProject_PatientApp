@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'baseScreen.dart';
+import './baseScreen.dart';
+
 import '../style/theme.dart' as Theme;
 import '../utils/bubble_indication_painter.dart';
 

@@ -1,5 +1,11 @@
+import 'package:FinalProject/Providers/appointmentProvider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
 import 'package:rounded_flutter_datetime_picker/rounded_flutter_datetime_picker.dart';
+
+import '../Classes/doctor.dart';
+import '../Providers/doctorProvider.dart';
 
 class ModalBottomSheetWidget extends StatefulWidget {
   @override
@@ -11,8 +17,21 @@ class _BottomSheetWidgetState extends State<ModalBottomSheetWidget> {
   DateTime _selectedDate = null;
   bool _isDateSet = false;
   DateTime _selectedTime = null;
+  Doctor _selectedDoctor;
+  bool _isDoctorSet = false;
+
+  bool _buttonEnabler() {
+    if (_isTimeSet && _isDateSet && _isDoctorSet) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Doctor> _doctorDropDownList =
+        Provider.of<DoctorProvider>(context, listen: false).doctorList;
+
     return Container(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -47,13 +66,13 @@ class _BottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                           ),
                           Text(
                               _isDateSet
-                                  ? '${_selectedDate.day.toString()}-${_selectedDate.month.toString()}-${_selectedDate.year.toString()}'
-                                  : "Select Date",
+                                  ? '${_selectedDate.day.toString()}/${_selectedDate.month.toString()}/${_selectedDate.year.toString()}  ${_selectedDate.toIso8601String().substring(11, 16)}'
+                                  : "Select Date and Time",
                               style: TextStyle(fontSize: 18)),
                           IconButton(
                             icon: Icon(Icons.calendar_today),
                             onPressed: () {
-                              DatePicker.showDatePicker(context,
+                              DatePicker.showDateTimePicker(context,
                                   showTitleActions: true,
                                   minTime: DateTime.now(),
                                   maxTime: DateTime(2020, 12, 31),
@@ -73,12 +92,14 @@ class _BottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                                   ), onConfirm: (date) {
                                 setState(() {
                                   if (!_isDateSet) {
-                                    _isDateSet = !_isTimeSet;
+                                    _isDateSet = !_isDateSet;
                                   }
                                   _selectedDate = date;
                                 });
                               },
-                                  currentTime: DateTime.now(),
+                                  currentTime: _isDateSet
+                                      ? _selectedDate
+                                      : DateTime.now(),
                                   locale: LocaleType.en);
                             },
                           ),
@@ -89,14 +110,14 @@ class _BottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Date",
+                            "Access Time",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                           Text(
                               _isTimeSet
-                                  ? '${_selectedTime.hour.toString()} : ${_selectedTime.minute.toString()}'
-                                  : "Select Date",
+                                  ? '${_selectedTime.toIso8601String().substring(11, 16)}'
+                                  : "Select Time",
                               style: TextStyle(fontSize: 18)),
                           IconButton(
                             icon: Icon(Icons.timer),
@@ -124,7 +145,9 @@ class _BottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                                   _selectedTime = time;
                                 });
                               },
-                                  currentTime: DateTime.now(),
+                                  currentTime: _isTimeSet
+                                      ? _selectedTime
+                                      : DateTime.now(),
                                   locale: LocaleType.en);
                             },
                           ),
@@ -133,11 +156,64 @@ class _BottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                     ],
                   ),
                   Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Doctor",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: DropdownButton(
+                          isExpanded: true,
+                          style: TextStyle(
+                              fontSize: 18,
+                              textBaseline: TextBaseline.alphabetic),
+                          hint: Text("Select Doctor"),
+                          value: _selectedDoctor,
+                          onChanged: (Doctor value) {
+                            setState(() {
+                              _selectedDoctor = value;
+                              _isDoctorSet = true;
+                            });
+                          },
+                          items: _doctorDropDownList.map((Doctor doctor) {
+                            return DropdownMenuItem<Doctor>(
+                              value: doctor,
+                              child: Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    doctor.name,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      )
+                    ],
+                  ),
+                  Divider(),
                   RaisedButton(
-                    onPressed: () {
-                      print(_selectedDate);
-                      print(_selectedTime);
-                    },
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    onPressed: _buttonEnabler()
+                        ? () {
+                            Provider.of<AppointmentProvider>(context,
+                                    listen: false)
+                                .addAppointment(_selectedDoctor.name,
+                                    _selectedDate, _selectedDoctor.id);
+                            Navigator.of(context).pop();
+                          }
+                        : null,
                     child: Text("Save"),
                   )
                 ],

@@ -34,4 +34,13 @@ class AppointmentProvider with ChangeNotifier {
   List<Appointment> get appointmentList {
     return [..._appointmentList];
   }
+
+  void addAppointment(String doctorName, DateTime date, String doctorId) {
+    _appointmentList.add(Appointment(
+        appointmentId: DateTime.now().toString(),
+        dateTime: date,
+        doctorId: doctorId,
+        doctorName: doctorName));
+    notifyListeners();
+  }
 }
