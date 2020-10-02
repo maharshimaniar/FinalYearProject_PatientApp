@@ -31,4 +31,19 @@ class AppointmentProvider with ChangeNotifier {
         accessDateTime: accessTime));
     notifyListeners();
   }
+
+  void deleteAppointment(int index) {
+    _appointmentList.removeAt(index);
+    notifyListeners();
+  }
+
+  void deleteSpecificDoctorAppointment(String id) {
+    _appointmentList.removeWhere((element) {
+      if (element.doctor.id == id) {
+        return true;
+      }
+      return false;
+    });
+    notifyListeners();
+  }
 }

@@ -8,15 +8,17 @@ import '../Classes/doctor.dart';
 import '../Providers/doctorProvider.dart';
 
 class ModalBottomSheetWidget extends StatefulWidget {
+  final Doctor doctor;
+  ModalBottomSheetWidget({this.doctor});
   @override
   _ModalBottomSheetWidgetState createState() => _ModalBottomSheetWidgetState();
 }
 
 class _ModalBottomSheetWidgetState extends State<ModalBottomSheetWidget> {
   bool _isTimeSet = false;
-  DateTime _selectedDate = null;
+  DateTime _selectedDate;
   bool _isDateSet = false;
-  DateTime _selectedTime = null;
+  DateTime _selectedTime;
   Doctor _selectedDoctor;
   bool _isDoctorSet = false;
 
@@ -25,6 +27,15 @@ class _ModalBottomSheetWidgetState extends State<ModalBottomSheetWidget> {
       return true;
     }
     return false;
+  }
+
+  @override
+  void initState() {
+    if (widget.doctor != null) {
+      _selectedDoctor = widget.doctor;
+      _isDoctorSet = true;
+    }
+    super.initState();
   }
 
   @override
@@ -206,35 +217,38 @@ class _ModalBottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.5,
-                      child: DropdownButton(
-                        isExpanded: true,
-                        style: TextStyle(
-                            fontSize: 18,
-                            textBaseline: TextBaseline.alphabetic),
-                        hint: Text("Select Doctor"),
-                        value: _selectedDoctor,
-                        onChanged: (Doctor value) {
-                          setState(() {
-                            _selectedDoctor = value;
-                            _isDoctorSet = true;
-                          });
-                        },
-                        items: _doctorDropDownList.map((Doctor doctor) {
-                          return DropdownMenuItem<Doctor>(
-                            value: doctor,
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  doctor.name,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          elevation: 5,
+                          isExpanded: true,
+                          style: TextStyle(
+                              fontSize: 18,
+                              textBaseline: TextBaseline.alphabetic),
+                          hint: Text("Select Doctor"),
+                          value: _selectedDoctor,
+                          onChanged: (Doctor value) {
+                            setState(() {
+                              _selectedDoctor = value;
+                              _isDoctorSet = true;
+                            });
+                          },
+                          items: _doctorDropDownList.map((Doctor doctor) {
+                            return DropdownMenuItem<Doctor>(
+                              value: doctor,
+                              child: Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    doctor.name,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                   ],
@@ -266,7 +280,7 @@ class _ModalBottomSheetWidgetState extends State<ModalBottomSheetWidget> {
                         Provider.of<AppointmentProvider>(context, listen: false)
                             .addAppointment(
                                 _selectedDoctor, _selectedDate, _selectedTime);
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(true);
                       }
                     : null),
           ],

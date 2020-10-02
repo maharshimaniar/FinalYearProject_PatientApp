@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
@@ -23,7 +24,14 @@ class QrCodeModalBottomSheet extends StatefulWidget {
 class _QrCodeModalBottomSheetState extends State<QrCodeModalBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    final _map = {
+      'accessDateTime': widget.accessDateTime.toIso8601String(),
+      'appointmentDateTime': widget.appointmentDateTime.toIso8601String(),
+      'appointmentId': widget.appointmentId,
+      'doctorId': widget.doctor.id
+    };
+
+    return Container(
       height: MediaQuery.of(context).size.height * 0.7,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,8 +56,7 @@ class _QrCodeModalBottomSheetState extends State<QrCodeModalBottomSheet> {
               ),
               elevation: 5,
               child: QrImage(
-                data:
-                    'accessDateTime:${widget.accessDateTime.toIso8601String()},appointmentDateTime:${widget.appointmentDateTime.toIso8601String()},appointmentId:${widget.appointmentId},doctorId:${widget.doctor.id}',
+                data: json.encode(_map),
                 size: 200,
               ),
             ),

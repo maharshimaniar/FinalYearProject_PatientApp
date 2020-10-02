@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'dart:convert';
 
 import '../Classes/doctor.dart';
 
@@ -40,5 +41,32 @@ class DoctorProvider with ChangeNotifier {
     return [..._doctorList];
   }
 
-  
+  void deleteDoctor(index) {
+    _doctorList.removeAt(index);
+    notifyListeners();
+  }
+
+  bool adddDoctorByQrScan(String scannedString) {
+    try {
+      var _scannedStringMap = json.decode(scannedString);
+      if (_scannedStringMap['contactNumber'] != null &&
+          _scannedStringMap['id'] != null &&
+          _scannedStringMap['name'] != null &&
+          _scannedStringMap['specialization'] != null &&
+          _scannedStringMap['imageUrl'] != null) {
+        _doctorList.add(Doctor(
+            contactNumber: _scannedStringMap['contactNumber'],
+            id: _scannedStringMap['id'],
+            imageUrl: _scannedStringMap['imageUrl'],
+            name: _scannedStringMap['name'],
+            specialization: _scannedStringMap['specialization']));
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
 }

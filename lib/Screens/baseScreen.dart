@@ -69,7 +69,7 @@ class _HomePageState extends State<BasePage> {
         color: Colors.black54,
         backgroundColor: Colors.white,
         buttonBackgroundColor: Colors.black,
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: Duration(milliseconds: 300),
         items: <Widget>[
           Icon(Icons.contacts, color: Colors.white),
           Icon(Icons.alarm, color: Colors.white),

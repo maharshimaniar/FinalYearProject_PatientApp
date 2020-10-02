@@ -17,11 +17,10 @@ class ReminderScreen extends StatefulWidget {
 
 class _HomePageState extends State<ReminderScreen>
     with SingleTickerProviderStateMixin {
-  final tabList = ['Medicines', 'Appointments'];
+  final tabList = ['Appointments', 'Medicines'];
   TabController _tabController;
   @override
   void initState() {
-    // TODO: implement initState
     _tabController = TabController(vsync: this, length: tabList.length);
     super.initState();
   }
@@ -45,7 +44,7 @@ class _HomePageState extends State<ReminderScreen>
             controller: _tabController,
             indicator: PointTabIndicator(
               position: PointTabIndicatorPosition.bottom,
-              color: Colors.white,
+              color: Theme.of(context).primaryColorDark,
               insets: EdgeInsets.only(bottom: 6),
             ),
             tabs: tabList.map((item) {
@@ -62,6 +61,87 @@ class _HomePageState extends State<ReminderScreen>
           Container(
             padding: EdgeInsets.all(10),
             height: MediaQuery.of(context).size.height,
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: Colors.black,
+                      indent: 30,
+                      endIndent: 30,
+                      thickness: 1 / 5,
+                    );
+                  },
+                  itemCount: _appointmentList.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      key: UniqueKey(),
+                      background: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            color: Theme.of(context).errorColor),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 20),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 4,
+                        ),
+                      ),
+                      direction: DismissDirection.endToStart,
+                      confirmDismiss: (direction) {
+                        return showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text('Delete Appointment'),
+                            content: Text(
+                              'Do you want to remove the Appointment?',
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('No'),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop(false);
+                                },
+                              ),
+                              FlatButton(
+                                child: Text('Yes'),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop(true);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      onDismissed: (direction) {
+                        setState(() {
+                          Provider.of<AppointmentProvider>(context,
+                                  listen: false)
+                              .deleteAppointment(index);
+                        });
+                      },
+                      child: AppointmentListTile(
+                        appointmentDateTime:
+                            _appointmentList[index].appointmentDateTime,
+                        doctor: _appointmentList[index].doctor,
+                        appointmentId: _appointmentList[index].appointmentId,
+                        accessTime: _appointmentList[index].accessDateTime,
+                      ),
+                    );
+                  }),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: Container(
               height: MediaQuery.of(context).size.height / 3,
@@ -71,7 +151,15 @@ class _HomePageState extends State<ReminderScreen>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                child: ListView.builder(
+                child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        color: Colors.black,
+                        indent: 30,
+                        endIndent: 30,
+                        thickness: 1 / 5,
+                      );
+                    },
                     itemCount: _medicineReminderList.length,
                     itemBuilder: (context, index) {
                       return MedicineReminderListTile(
@@ -83,27 +171,6 @@ class _HomePageState extends State<ReminderScreen>
                           unit: _medicineReminderList[index].unit);
                     }),
               ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height,
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: ListView.builder(
-                  itemCount: _appointmentList.length,
-                  itemBuilder: (context, index) {
-                    return AppointmentListTile(
-                      appointmentDateTime:
-                          _appointmentList[index].appointmentDateTime,
-                      doctor: _appointmentList[index].doctor,
-                      appointmentId: _appointmentList[index].appointmentId,
-                      accessTime: _appointmentList[index].accessDateTime,
-                    );
-                  }),
             ),
           ),
         ],
