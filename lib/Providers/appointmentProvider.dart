@@ -16,10 +16,28 @@ class AppointmentProvider with ChangeNotifier {
           specialization: "MBBS",
         ),
         accessDateTime: DateTime.now().add(Duration(hours: 1))),
+    Appointment(
+        appointmentId: DateTime.now().toIso8601String(),
+        appointmentDateTime: DateTime.parse('2020-05-05 01:27:00'),
+        doctor: Doctor(
+          id: '2',
+          imageUrl: "https://picsum.photos/id/237/200/300",
+          name: "Doctor B",
+          contactNumber: "9876543210",
+          specialization: "MBBS",
+        ),
+        accessDateTime: DateTime.parse('2020-05-05 00:27:00')),
   ];
 
   List<Appointment> get appointmentList {
     return [..._appointmentList];
+  }
+
+  List<Appointment> get upcomingAppointments {
+    return [
+      ..._appointmentList.where((element) => element.appointmentDateTime
+          .isAfter(DateTime.parse('2020-05-06 00:00:00')))
+    ];
   }
 
   void addAppointment(
@@ -39,7 +57,9 @@ class AppointmentProvider with ChangeNotifier {
 
   void deleteSpecificDoctorAppointment(String id) {
     _appointmentList.removeWhere((element) {
-      if (element.doctor.id == id) {
+      if (element.doctor.id == id &&
+          element.appointmentDateTime
+              .isAfter(DateTime.parse('2020-06-06 00:00:00'))) {
         return true;
       }
       return false;

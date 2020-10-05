@@ -1,3 +1,5 @@
+import 'package:FinalProject/Screens/historyScreen.dart';
+
 import 'package:flutter/material.dart';
 
 import '../Widgets/drawerHeaderCard.dart';
@@ -23,16 +25,26 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {},
           ),
-          Divider(thickness: 1,indent: 20,endIndent: 20,),
+          Divider(
+            thickness: 1,
+            indent: 20,
+            endIndent: 20,
+          ),
           ListTile(
             leading: CircleAvatar(child: Icon(Icons.history)),
             title: Text(
               "History",
               style: TextStyle(fontSize: 22),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.popAndPushNamed(context, History.routeName);
+            },
           ),
-          Divider(thickness: 1,indent: 20,endIndent: 20,),
+          Divider(
+            thickness: 1,
+            indent: 20,
+            endIndent: 20,
+          ),
           ListTile(
             leading: CircleAvatar(child: Icon(Icons.settings)),
             title: Text(
@@ -41,7 +53,11 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {},
           ),
-          Divider(thickness: 1,indent: 20,endIndent: 20,),
+          Divider(
+            thickness: 1,
+            indent: 20,
+            endIndent: 20,
+          ),
           ListTile(
             leading: CircleAvatar(child: Icon(Icons.developer_mode)),
             title: Text(
@@ -49,6 +65,22 @@ class AppDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 22),
             ),
             onTap: () {},
+          ),
+          Divider(
+            thickness: 1,
+            indent: 20,
+            endIndent: 20,
+          ),
+          ListTile(
+            leading: CircleAvatar(child: Icon(Icons.exit_to_app)),
+            title: Text(
+              "Logout",
+              style: TextStyle(fontSize: 22),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).popAndPushNamed('/');
+            },
           ),
         ],
       ),

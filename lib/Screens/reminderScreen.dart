@@ -28,7 +28,7 @@ class _HomePageState extends State<ReminderScreen>
   @override
   Widget build(BuildContext context) {
     List<Appointment> _appointmentList =
-        Provider.of<AppointmentProvider>(context).appointmentList;
+        Provider.of<AppointmentProvider>(context).upcomingAppointments;
     List<MedicineReminder> _medicineReminderList =
         Provider.of<MedicineReminderProvider>(context).medicineReminderList;
     return Scaffold(
@@ -82,10 +82,10 @@ class _HomePageState extends State<ReminderScreen>
                       background: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
-                            color: Theme.of(context).errorColor),
+                            color: Theme.of(context).primaryColor),
                         child: Icon(
                           Icons.delete,
-                          color: Colors.white,
+                          color: Colors.red[700],
                           size: 40,
                         ),
                         alignment: Alignment.centerRight,

@@ -1,4 +1,5 @@
 
+import 'package:FinalProject/Screens/historyScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         home: new LoginPage(),
         routes: {
           BasePage.routeName: (context) => BasePage(),
+          History.routeName: (context) => History(),
         },
       ),
     );

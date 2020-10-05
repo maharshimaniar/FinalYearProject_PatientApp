@@ -107,6 +107,7 @@ class _HomePageState extends State<DoctorScreen> {
                     } else if (direction == DismissDirection.startToEnd) {
                       _makePhoneCall(_doctorList[index].contactNumber);
                     }
+                    
                   },
                   onDismissed: (direction) {
                     setState(() {
@@ -133,7 +134,9 @@ class _HomePageState extends State<DoctorScreen> {
         ),
         floatingActionButton: FloatingActionButton(
             backgroundColor: Theme.of(context).primaryColor,
-            child: Icon(Icons.add),
+            child: Container(
+                padding: EdgeInsets.all(5),
+                child: Image.asset('assets/img/scan_qr.png')),
             onPressed: () async {
               await scanQRCode();
               bool result = Provider.of<DoctorProvider>(context, listen: false)
