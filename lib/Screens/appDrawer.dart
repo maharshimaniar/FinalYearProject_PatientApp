@@ -1,8 +1,12 @@
+import 'package:FinalProject/Providers/userProvider.dart';
 import 'package:FinalProject/Screens/historyScreen.dart';
+import 'package:FinalProject/Screens/splashScreen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Widgets/drawerHeaderCard.dart';
+import '../Methods/sign_in.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -78,8 +82,10 @@ class AppDrawer extends StatelessWidget {
               style: TextStyle(fontSize: 22),
             ),
             onTap: () {
+              Provider.of<UserProvider>(context, listen: false).removeUser();
+              signOutGoogle(context);
               Navigator.of(context).pop();
-              Navigator.of(context).popAndPushNamed('/');
+              Navigator.of(context).pushReplacementNamed(SplashScreenWidget.routeName);
             },
           ),
         ],

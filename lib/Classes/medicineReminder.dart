@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-//enum inTime {Before_Meal,After_Meal}
-
 class MedicineReminder {
   final String medicineId;
   final String medicineName;

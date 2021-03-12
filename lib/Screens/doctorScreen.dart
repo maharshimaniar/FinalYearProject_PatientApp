@@ -7,6 +7,7 @@ import '../Providers/appointmentProvider.dart';
 import '../Providers/doctorProvider.dart';
 import '../Widgets/doctorListTile.dart';
 
+
 class DoctorScreen extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -88,7 +89,7 @@ class _HomePageState extends State<DoctorScreen> {
                           content: Text(
                             'Do you want to remove Dr.${_doctorList[index].name}?',
                           ),
-                          actions: <Widget>[
+                          actions: [
                             FlatButton(
                               child: Text('No'),
                               onPressed: () {
@@ -107,7 +108,6 @@ class _HomePageState extends State<DoctorScreen> {
                     } else if (direction == DismissDirection.startToEnd) {
                       _makePhoneCall(_doctorList[index].contactNumber);
                     }
-                    
                   },
                   onDismissed: (direction) {
                     setState(() {

@@ -105,13 +105,13 @@ class _HomePageState extends State<ReminderScreen>
                               'Do you want to remove the Appointment?',
                             ),
                             actions: <Widget>[
-                              FlatButton(
+                              FlatButton (
                                 child: Text('No'),
                                 onPressed: () {
                                   Navigator.of(ctx).pop(false);
                                 },
                               ),
-                              FlatButton(
+                              FlatButton (
                                 child: Text('Yes'),
                                 onPressed: () {
                                   Navigator.of(ctx).pop(true);
